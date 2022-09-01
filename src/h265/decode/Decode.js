@@ -27,6 +27,7 @@ class Decode {
       }
     }
     // self.importScripts(libPath + 'TAppDecoderStatic.js')
+    // const testUrl = "http://localhost:8502/lib/libffmpeg.js"
     self.importScripts(libPath + 'libffmpeg.js')
     self.Module.onRuntimeInitialized = function() {
       console.log('wasm loaded')

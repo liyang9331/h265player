@@ -1,13 +1,6 @@
-*node_modules/
 .DS_Store
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-test/unit/coverage
-test/e2e/reports
-selenium-debug.log
+node_modules
 package-lock.json
-lerna-debug
 
 #generated theme
 theme/lib/
@@ -17,13 +10,24 @@ dist/*.js
 dist/*.css
 tmp/
 
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
 # Editor directories and files
 .idea
+.vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-.vscode
+*.sw?
 
 # 打包文件
 *.tgz

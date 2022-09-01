@@ -13,7 +13,9 @@ self.decode = new Decode()
 self.demuxer = new TsDemux(self.decode)
 
 export default self => {
+  console.log(11111,"----------");
   self.onmessage = function(event) {
+    console.log(event)
     let data = event.data
     let type = data.type
     let buffer = data.data
