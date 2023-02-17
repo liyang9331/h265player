@@ -5,7 +5,7 @@
 <meta content=always name=referrer>
 <link rel="shortcut icon" href=/favicon.ico type=image/x-icon> <title>H.265在线播放器DEMO</title>
 <link rel="stylesheet" href="../dist/goldplay-h265.css">
-<script src="../dist/goldplay-h265-sdk.js"></script>
+<script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
 <style>
   .play-container {
     width: 800px;
@@ -26,45 +26,35 @@
   <div id="PlayerWrapper">
     <h3>H.265 Player <b>在线播放器Demo1</b><em class="demo1" id="Demo1">DEMO</em></h3>
     <div class="play-container"></div>
-    <input type="button" id="change" value=change/>
   </div>
   <br clear="all">
   <br>
-  <script>
+  <script type="module">
+
     (function (win, doc) {
       const Config = {
-        get basePath() {
+        get buildPath() {
           let path = win.location.origin
           let pathname = win.location.pathname
           let demoIdx = pathname.lastIndexOf('/demo/')
-          return path + pathname.substr(0, demoIdx)
-        },
-        get buildPath() {
-          return this.basePath + '/dist/'
+          return path + pathname.substr(0, demoIdx) + '/dist/'
         },
         get libPath() {
           return this.buildPath + 'lib/'
         },
         get src() {
-          return this.basePath + '/data/video2/playlist.m3u8'
+          return win.location.origin + '/data/video2/playlist.m3u8'
         }
       }
       let el = doc.querySelector('.play-container')
-      let player = new GoldPlay(el, {
-        // sourceURL: Config.src,
-        sourceURL: 'https://livecbing.alicdn.com/mediaplatform/0083f18b-3e8e-4932-8b73-b37647a0aa14_merge.m3u8',
-        type: 'HLS',
-        libPath: Config.libPath,
-        playBackRate: 1,
-        rateList: [
-          {"url":"http://localhost:9011/gitwork/goldplay/h265player/data/video1/playlist.m3u8","id":51,"name":"720P","value":"720"},
-           {"url":"http://localhost:9011/gitwork/goldplay/h265player/data/video3/playlist.m3u8","id":51,"name":"高清","value":"600"}
-        ]
+      require(['../dist/goldplay-h265.cjs.js'], function(GoldPlay) {
+        let player = new GoldPlay(el, {
+          sourceURL: Config.src,
+          type: 'HLS',
+          libPath: Config.libPath,
+          playBackRate: 1,
+        })
       })
-      document.querySelector('#change').onclick = function(){
-        player.changeSrc('http://localhost:9011/gitwork/goldplay/h265player/data/video1/playlist.m3u8')
-      }
-      // player.destroy()
     })(window, document)
   </script>
 </body>
