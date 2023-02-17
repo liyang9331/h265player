@@ -7,24 +7,19 @@
  * @author Jarry
  */
 
-import {
-  BUFFER
-} from '../config/Config'
+import { BUFFER } from '../config/Config'
+// 基础加载器
 import BaseLoader from './BaseLoader'
-import {
-  state
-} from '../config/LoaderConfig'
-import {
-  M3U8Parser
-} from '../toolkit/M3U8Parser'
-import SegmentPool from '../data/SegmentPool'
-import SegmentModel from '../model/SegmentModel'
+import { state} from '../config/LoaderConfig'
+// import {  M3U8Parser} from '../toolkit/M3U8Parser'
+// import SegmentPool from '../data/SegmentPool'
+// import SegmentModel from '../model/SegmentModel'
 import Events from '../config/EventsConfig'
-import Utils from '../utils/Utils'
-import {
-  MP4Demux, Events as DemuxerEvents
-} from 'demuxer';
+// import Utils from '../utils/Utils'
+// 解封装
+import {MP4Demux, Events as DemuxerEvents} from 'demuxer';
 
+// mp4 加载器
 class MP4Loader extends BaseLoader {
   state = state.IDLE
 
@@ -36,7 +31,7 @@ class MP4Loader extends BaseLoader {
   httpWorker = null
   mp4Meta = null
   // segmentPool should be immutability
-  segmentPool = [ /* new SegmentModel */ ]
+  segmentPool = [ /* new SegmentModel */]
 
   currentNo = null
   maxRetryCount = BUFFER.maxRetryCount
@@ -50,11 +45,10 @@ class MP4Loader extends BaseLoader {
     // this.setSegmentPool(new SegmentPool())
   }
 
-  loadRange(callback) {
-
+  loadRange (callback) {
   }
 
-  preload(callback) {
+  preload (callback) {
     this.httpWorker.postMessage({
       type: 'invoke',
       fileType: 'mp4',
@@ -104,12 +98,12 @@ class MP4Loader extends BaseLoader {
 
           demux.push(bytes);
         });
-        this.loadFragment({start:0, end:100}, '')
+        this.loadFragment({ start: 0, end: 100 }, '')
       }
     }
   }
 
-  isNotFree(notice = '') {
+  isNotFree (notice = '') {
     notice = '[' + notice + ']loader is not free. please wait.'
     if (this.state !== state.IDLE && this.state !== state.DONE) {
       this.logger.warn('isNotFree', 'check status for loader', 'notice:', notice)
@@ -118,7 +112,8 @@ class MP4Loader extends BaseLoader {
     return false
   }
 
-  getBaseUrl(file) {
+  getBaseUrl (file) {
+    // console.log(file)
     const sourceURL = this.options.sourceURL
     const isAbsolute = file.indexOf('//') > -1
     if (!isAbsolute) {
@@ -128,7 +123,7 @@ class MP4Loader extends BaseLoader {
     return ''
   }
 
-  checkLoadCondition(segment) {
+  checkLoadCondition (segment) {
     // over the pool range
     if (segment.no > this.segmentPool.length) {
       return false
@@ -148,7 +143,7 @@ class MP4Loader extends BaseLoader {
    * @param {String} type [optional] 'seek' or 'play'
    * @param {Number} time [optional] millisecond
    */
-  loadFragment(range = {start: 0, end: 1048576}, type = 'play', time = 0) {
+  loadFragment (range = { start: 0, end: 1048576 }, type = 'play', time = 0) {
     let segment = range
     // only single load process
     if (this.isNotFree() && type !== 'seek' && type !== 'start') {
@@ -162,10 +157,9 @@ class MP4Loader extends BaseLoader {
       return
     }
 
-    // this.currentNo = segment.no
-
-    // const baseUrl = this.getBaseUrl(segment.file)
-    // let url = baseUrl + segment.file
+    this.currentNo = segment.no
+    const baseUrl = this.getBaseUrl(segment.file)
+    let url = baseUrl + segment.file
     let retryCount = 1
 
     const _getRequestURL = (url, segment) => {
@@ -218,7 +212,8 @@ class MP4Loader extends BaseLoader {
     }
     _send()
   }
-  destroy() {
+  // 清除
+  destroy () {
     if (this.httpWorker) {
       this.httpWorker.terminate()
     }

@@ -46,20 +46,21 @@
           return this.buildPath + 'lib/'
         },
         get src() {
-          return this.basePath + '/data/video2/playlist.m3u8'
+          // return this.basePath + '/data/video2/playlist.m3u8'
+          return this.basePath + '/data/video1/playlist.m3u8'
         }
       }
       let el = doc.querySelector('.play-container')
       let player = new GoldPlay(el, {
         // sourceURL: Config.src,
-        sourceURL: 'https://livecbing.alicdn.com/mediaplatform/0083f18b-3e8e-4932-8b73-b37647a0aa14_merge.m3u8',
+        sourceURL: Config.src,
         type: 'HLS',
         libPath: Config.libPath,
         playBackRate: 1,
-        rateList: [
-          {"url":"http://localhost:9011/gitwork/goldplay/h265player/data/video1/playlist.m3u8","id":51,"name":"720P","value":"720"},
-           {"url":"http://localhost:9011/gitwork/goldplay/h265player/data/video3/playlist.m3u8","id":51,"name":"高清","value":"600"}
-        ]
+        // rateList: [
+        //   {"url":"http://localhost:9011/gitwork/goldplay/h265player/data/video1/playlist.m3u8","id":51,"name":"720P","value":"720"},
+        //    {"url":"http://localhost:9011/gitwork/goldplay/h265player/data/video3/playlist.m3u8","id":51,"name":"高清","value":"600"}
+        // ]
       })
       document.querySelector('#change').onclick = function(){
         player.changeSrc('http://localhost:9011/gitwork/goldplay/h265player/data/video1/playlist.m3u8')

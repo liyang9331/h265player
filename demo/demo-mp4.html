@@ -31,20 +31,29 @@
   <br clear="all">
   <br>
   <script>
+    // console.log(window.location);
     (function (win, doc) {
       const Config = {
+        // 基础路径
         get basePath() {
+          // 主机地址
           let path = win.location.origin
+          // 页面相对路径
           let pathname = win.location.pathname
+          // /demo/ 在相对路径中最后一次出现的索引
           let demoIdx = pathname.lastIndexOf('/demo/')
+          // 返回 主机地址 + 相对路径截取(0,demoIdx)
           return path + pathname.substr(0, demoIdx)
         },
+        // 打包路径
         get buildPath() {
           return this.basePath + '/dist/'
         },
+        // lib路径
         get libPath() {
           return this.buildPath + 'lib/'
         },
+        // 视频地址
         get src() {
           return this.basePath + '/data/mp4/song_h265.mp4'
         }

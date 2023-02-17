@@ -55,7 +55,9 @@ const Config = {
 const BUFFER = {
   //单位秒，loader加载ts片段缓存
   maxDuration: 30,
+  // 最大值
   maxSize: 1024 * 1000 * 1000,
+  // 最大重试计数
   maxRetryCount: 3
 }
 
